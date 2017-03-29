@@ -80,11 +80,12 @@ class LearningAgent(Agent):
         
         key2 = (myActionTaken,myInputs,myReward)
 #         key = self.Q.get(key2)
-        maxQ = self.Q[key2]
+        maxQ = key2
 
         for key in self.Q.keys():
             if key[1].difference(myInputs) ==set([]):
-                maxQ = max(self.Q[key],maxQ)
+                if self.Q[key] > self.Q[maxQ]:
+                    maxQ = key
                 
         return maxQ 
 
