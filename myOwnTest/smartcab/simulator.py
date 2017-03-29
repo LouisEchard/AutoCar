@@ -234,7 +234,11 @@ class Simulator(object):
                 f.write("| State-action rewards from Q-Learning\n")
                 f.write("\-----------------------------------------\n\n")
 
-                for state in a.Q:
+                for state in a.Q:        
+                    myActionTaken = ('action_taken' , state[0])
+                    myInputs =  state[1].items()
+                    myReward = ('reward', state[2])
+                    key = (myActionTaken,frozenset(myInputs),myReward)
                     f.write("{}\n".format(state))
                     for action, reward in a.Q[state].iteritems():
                         f.write(" -- {} : {:.2f}\n".format(action, reward))
