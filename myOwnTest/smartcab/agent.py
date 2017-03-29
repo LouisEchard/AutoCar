@@ -74,8 +74,13 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # 
-
-        maxQ = max(self.Q, key=self.Q.get)
+        myActionTaken = ('action_taken' , state[0])
+        myInputs =  state[1].items()
+        myReward = ('reward', state[2])
+        
+        key2 = (myActionTaken,frozenset(myInputs),myReward)
+        
+        maxQ = max(self.Q[key2], key=self.Q.get)
 
         return maxQ 
 
