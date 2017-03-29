@@ -34,7 +34,7 @@ class Simulator(object):
         'gray'    : (155, 155, 155)
     }
 
-    def __init__(self, env, size=None, update_delay=0.01, display=True, log_metrics=True, optimized=False):
+    def __init__(self, env, size=None, update_delay=0.0001, display=True, log_metrics=True, optimized=False):
         self.env = env
         self.size = size if size is not None else ((self.env.grid_size[0] + 1) * self.env.block_size, (self.env.grid_size[1] + 2) * self.env.block_size)
         self.width, self.height = self.size
@@ -235,13 +235,13 @@ class Simulator(object):
                 f.write("\-----------------------------------------\n\n")
 
                 for state in a.Q:        
-                    myActionTaken = ('action_taken' , state[0])
-                    myInputs =  state[1].items()
-                    myReward = ('reward', state[2])
-                    key = (myActionTaken,frozenset(myInputs),myReward)
+#                     myActionTaken = ('action_taken' , state[0])
+#                     myInputs =  state[1].items()
+#                     myReward = ('reward', state[2])
+#                     key = (myActionTaken,frozenset(myInputs),myReward)
                     f.write("{}\n".format(state))
-                    for action, reward in a.Q[state].iteritems():
-                        f.write(" -- {} : {:.2f}\n".format(action, reward))
+#                     for action, reward in a.Q[state].():
+#                         f.write(" -- {} : {:.2f}\n".format(action, reward))
                     f.write("\n")  
                 self.table_file.close()
 
