@@ -75,13 +75,17 @@ class LearningAgent(Agent):
         ###########
         # 
         myActionTaken = ('action_taken' , state[0])
-        myInputs =  state[1].items()
+        myInputs =  frozenset(state[1].items())
         myReward = ('reward', state[2])
         
-        key2 = (myActionTaken,frozenset(myInputs),myReward)
-        
-        maxQ = max(self.Q[key2], key=self.Q.get)
+        key2 = (myActionTaken,myInputs,myReward)
+#         key = self.Q.get(key2)
+        maxQ = self.Q[key2]
 
+        for key in self.Q.keys():
+            if key[1].difference(myInputs) ==set([]):
+                maxQ = max(self.Q[key],maxQ)
+                
         return maxQ 
 
 
