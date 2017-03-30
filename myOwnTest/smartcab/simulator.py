@@ -91,22 +91,22 @@ class Simulator(object):
             a = self.env.primary_agent
 
 #             # Set log files
-#             if a.learning:
-#                 if self.optimized: # Whether the user is optimizing the parameters and decay functions
-#                     self.log_filename = os.path.join("logs", "sim_improved-learning.csv")
-#                     self.table_filename = os.path.join("logs","sim_improved-learning.txt")
-#                 else: 
-#                     self.log_filename = os.path.join("logs", "sim_default-learning.csv")
-#                     self.table_filename = os.path.join("logs","sim_default-learning.txt")
-#  
-#                 self.table_file = open(self.table_filename, 'wb')
-#             else:
-#                 self.log_filename = os.path.join("logs", "sim_no-learning.csv")
-#              
-#             self.log_fields = ['trial', 'testing', 'parameters', 'initial_deadline', 'final_deadline', 'net_reward', 'actions', 'success']
-#             self.log_file = open(self.log_filename, 'wb')
-#             self.log_writer = csv.DictWriter(self.log_file, fieldnames=self.log_fields)
-#             self.log_writer.writeheader()
+            if a.learning:
+                if self.optimized: # Whether the user is optimizing the parameters and decay functions
+                    self.log_filename = os.path.join("logs", "sim_improved-learning.csv")
+                    self.table_filename = os.path.join("logs","sim_improved-learning.txt")
+                else: 
+                    self.log_filename = os.path.join("logs", "sim_default-learning.csv")
+                    self.table_filename = os.path.join("logs","sim_default-learning.txt")
+  
+                self.table_file = open(self.table_filename, 'wb')
+            else:
+                self.log_filename = os.path.join("logs", "sim_no-learning.csv")
+              
+            self.log_fields = ['trial', 'testing', 'parameters', 'initial_deadline', 'final_deadline', 'net_reward', 'actions', 'success']
+            self.log_file = open(self.log_filename, 'wb')
+            self.log_writer = csv.DictWriter(self.log_file, fieldnames=self.log_fields)
+            self.log_writer.writeheader()
 
     def run(self, tolerance=0.05, n_test=10):
         """ Run a simulation of the environment. 
@@ -199,7 +199,7 @@ class Simulator(object):
             if self.quit:
                 break
 
-            # Collect metrics from trial
+            #Collect metrics from trial
             if self.log_metrics:
                 self.log_writer.writerow({
                     'trial': trial,
