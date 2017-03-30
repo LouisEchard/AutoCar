@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=True, epsilon=2.0, alpha=0.5, gamma=1):
+    def __init__(self, env, learning=True, epsilon=50.0, alpha=0.5, gamma=1):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -80,7 +80,7 @@ class LearningAgent(Agent):
         
         key2 = (myActionTaken,myInputs,myReward)
 #         key = self.Q.get(key2)
-        maxQ = key2
+        maxQ = key2 #initialize
 
         for key in self.Q.keys():
             if key[1].difference(myInputs) ==set([]):
@@ -153,8 +153,8 @@ class LearningAgent(Agent):
         key = (myActionTaken,frozenset(myInputs),myReward)
 
         q_old = self.Q.get(key)
-        max_qstate =self.get_maxQ(state)[2][1]
-        q_utility = reward + self.gamma * max_qstate - q_old
+        #max_qstate =self.get_maxQ(state)[2][1]
+        q_utility = reward -q_old#+ self.gamma * max_qstate
         self.Q[key] = q_old + (self.alpha * q_utility)
         return
 
