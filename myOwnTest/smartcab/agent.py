@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=True, epsilon=20.0, alpha=0.7, gamma=1):
+    def __init__(self, env, learning=True, epsilon=0.0, alpha=0.7, gamma=1):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -17,7 +17,8 @@ class LearningAgent(Agent):
         self.learning = learning # Whether the agent is expected to learn
         self.Q = dict()          # Create a Q-table which will be a dictionary of tuples
         self.epsilon = epsilon   # Random exploration factor
-
+        
+        self.nbTrials = 0
 
         ###########
         ## TO DO ##
@@ -27,6 +28,7 @@ class LearningAgent(Agent):
         self.gamma= gamma #discount
 
     def reset(self, destination=None, testing=False):
+        self.nbTrials = self.nbTrials+1
         """ The reset function is called at the beginning of each trial.
             'testing' is set to True if testing trials are being used
             once training trials have completed. """
@@ -38,7 +40,8 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Update epsilon using a decay function of your choice
-        self.epsilon=self.epsilon-0.05
+#         self.epsilon=self.epsilon-0.05
+        self.epsilon = math.exp(-0.001*self.nbTrials)
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
@@ -82,7 +85,7 @@ class LearningAgent(Agent):
         key2 = (myActionTaken,myInputs,myDeadline,myWayPoint)
 #         key = self.Q.get(key2)
         maxQ = key2 #initialize
-        if random.choice(range(0,10))<6 or self.alpha==0 :
+        if random.choice(range(0,10))>=10*self.epsilon:
             for key in self.Q.keys():
                 if key[1].difference(myInputs) ==set([]) and key[3].difference(myWayPoint) ==set([]):# and frozenset(key[2]).difference(frozenset(myDeadline)) ==set([]):
                     if self.Q[key] > self.Q[maxQ]:
