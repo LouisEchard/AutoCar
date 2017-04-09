@@ -34,7 +34,7 @@ class Simulator(object):
         'gray'    : (155, 155, 155)
     }
 
-    def __init__(self, env, size=None, update_delay=0.0001, display=True, log_metrics=True, optimized=True):
+    def __init__(self, env, size=None, update_delay=0.0001, display=True, log_metrics=False, optimized=False):
         self.env = env
         self.size = size if size is not None else ((self.env.grid_size[0] + 1) * self.env.block_size, (self.env.grid_size[1] + 2) * self.env.block_size)
         self.width, self.height = self.size
@@ -90,23 +90,23 @@ class Simulator(object):
         if self.log_metrics:
             a = self.env.primary_agent
 
-# #             # Set log files
-#             if a.learning:
-#                 if self.optimized: # Whether the user is optimizing the parameters and decay functions
-#                     self.log_filename = os.path.join("logs", "sim_improved-learning.csv")
-#                     self.table_filename = os.path.join("logs","sim_improved-learning.txt")
-#                 else: 
-#                     self.log_filename = os.path.join("logs", "sim_default-learning.csv")
-#                     self.table_filename = os.path.join("logs","sim_default-learning.txt")
-#   
-#                 self.table_file = open(self.table_filename, 'wb')
-#             else:
-#                 self.log_filename = os.path.join("logs", "sim_no-learning.csv")
-#               
-#             self.log_fields = ['trial', 'testing', 'parameters', 'initial_deadline', 'final_deadline', 'net_reward', 'actions', 'success']
-#             self.log_file = open(self.log_filename, 'wb')
-#             self.log_writer = csv.DictWriter(self.log_file, fieldnames=self.log_fields)
-#             self.log_writer.writeheader()
+#             # Set log files
+            if a.learning:
+                if self.optimized: # Whether the user is optimizing the parameters and decay functions
+                    self.log_filename = os.path.join("logs", "sim_improved-learning.csv")
+                    self.table_filename = os.path.join("logs","sim_improved-learning.txt")
+                else: 
+                    self.log_filename = os.path.join("logs", "sim_default-learning.csv")
+                    self.table_filename = os.path.join("logs","sim_default-learning.txt")
+  
+                self.table_file = open(self.table_filename, 'wb')
+            else:
+                self.log_filename = os.path.join("logs", "sim_no-learning.csv")
+              
+            self.log_fields = ['trial', 'testing', 'parameters', 'initial_deadline', 'final_deadline', 'net_reward', 'actions', 'success']
+            self.log_file = open(self.log_filename, 'wb')
+            self.log_writer = csv.DictWriter(self.log_file, fieldnames=self.log_fields)
+            self.log_writer.writeheader()
 
     def run(self, tolerance=0.05, n_test=10):
         """ Run a simulation of the environment. 
@@ -200,17 +200,17 @@ class Simulator(object):
                 break
 
             #Collect metrics from trial
-#             if self.log_metrics:
-#                 self.log_writer.writerow({
-#                     'trial': trial,
-#                     'testing': self.env.trial_data['testing'],
-#                     'parameters': self.env.trial_data['parameters'],
-#                     'initial_deadline': self.env.trial_data['initial_deadline'],
-#                     'final_deadline': self.env.trial_data['final_deadline'],
-#                     'net_reward': self.env.trial_data['net_reward'],
-#                     'actions': self.env.trial_data['actions'],
-#                     'success': self.env.trial_data['success']
-#                 })
+            if self.log_metrics:
+                self.log_writer.writerow({
+                    'trial': trial,
+                    'testing': self.env.trial_data['testing'],
+                    'parameters': self.env.trial_data['parameters'],
+                    'initial_deadline': self.env.trial_data['initial_deadline'],
+                    'final_deadline': self.env.trial_data['final_deadline'],
+                    'net_reward': self.env.trial_data['net_reward'],
+                    'actions': self.env.trial_data['actions'],
+                    'success': self.env.trial_data['success']
+                })
 
             # Trial finished
             if self.env.success == True:
